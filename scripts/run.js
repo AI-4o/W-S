@@ -6,7 +6,7 @@ dotenv.config();
 const fileToRun = process.argv[2];
 
 if (!fileToRun) {
-    console.error('Please specify the name of the file in src/tutorials/ to run after index.ts');
+    console.error('Please specify the name of the file in src/scraping-examples/ to run after index.ts');
     process.exit(1);
 }
 
@@ -14,4 +14,4 @@ console.log('Running index.ts...');
 execSync('npx ts-node src/index.ts', { stdio: 'inherit' });
 
 console.log(`Running ${fileToRun}...`);
-execSync(`npx ts-node src/tutorials/${fileToRun}`, { stdio: 'inherit' });
+execSync(`npx ts-node src/scraping-examples/${fileToRun}`, { stdio: 'inherit' });
