@@ -1,0 +1,39 @@
+{
+  "name": "web-slayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node scripts/run.js",
+    "server-start": "node scripts/server-start.js",
+    "server-serve": "tsc && node dist/server.js",
+    "navigate": "ts-node src/client.ts navigate",
+    "click": "ts-node src/client.ts click",
+    "type": "ts-node src/client.ts type",
+    "evaluate": "ts-node src/client.ts evaluate",
+    "content": "ts-node src/client.ts content",
+    "shutdown": "ts-node src/client.ts shutdown"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.7",
+    "@types/yargs": "^17.0.33",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.11",
+    "@langchain/openai": "^0.3.7",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "langchain": "^0.3.2",
+    "puppeteer": "^23.5.3",
+    "ts-node": "^10.9.2",
+    "yargs": "^17.7.2"
+  }
+}
