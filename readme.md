@@ -37,6 +37,6 @@ A complex action (e.g. perform-linkedIn-login, search-contact, perform-google-se
 # TODO
   1. [ ] complete linkedin scraping adding the remaining data of a profile
   2. [ ] implement layer that adds the retrieved data to a json file, and to a CSV file
-    2.1. [ ] implement a layer that sends the data to a database
-    2.2. [ ] implement data visualization via charts
-  3. [ ] implement app which converts the data of a profile into a CV and produces a webpage with the CV and a pdf
+  3. [ ] implement a layer that sends the data to a database
+  4. [ ] implement data visualization via charts
+  5. [ ] implement app which converts the data of a profile into a CV and produces a webpage with the CV and a pdf
