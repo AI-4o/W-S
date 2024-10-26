@@ -1,12 +1,18 @@
 
+# Web-Slayer
+This app allows to mock the user actions on chrome, helping with:
+- automation tasks
+- web scraping
+- testing
+
 # Getting started
 
-1. start the puppeteer server 
+1. Start the puppeteer server 
 ```bash
 npm run server-serve
 ```
 
-2. run commands from the client using the commandline, e.g.
+2. Run commands from the client using the commandline, e.g.
 the command:
 ```bash
 npm run navigate 'http://ai.aisoft.sh'
@@ -15,16 +21,11 @@ will navigate to the url http://ai.aisoft.sh
 
 Whereas the command:
 ```bash
-npm run perform-google-search 'carpone'
+npm run perform-google-search 'basic bitch'
 ```
-will perform a google search for 'carpone' and open the first result
+will perform a google search for 'basic bitch' and open the first result
 
 # Structure of the app
-
-This app allows to mock the user actions on chrome, helping with:
-- automation tasks
-- web scraping
-- testing
 
 The app is structured in two parts:
 - server: runs a puppeteer instance and allows to send commands to it to perform basic user actions 
