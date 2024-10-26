@@ -13,7 +13,11 @@
     "type": "ts-node src/client.ts type",
     "evaluate": "ts-node src/client.ts evaluate",
     "content": "ts-node src/client.ts content",
-    "shutdown": "ts-node src/client.ts shutdown"
+    "shutdown": "ts-node src/client.ts shutdown",
+    "perform-google-search": "ts-node src/utils/navigation/google.ts perform-google-search",
+    "perform-linkedin-login": "ts-node src/utils/navigation/linkedin.ts perform-linkedin-login",
+    "search-contact": "ts-node src/utils/navigation/linkedin.ts search-contact",
+    "scrape": "ts-node src/utils/navigation/linkedin.ts scrape"
   },
   "keywords": [],
   "author": "",

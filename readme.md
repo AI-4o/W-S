@@ -6,14 +6,14 @@
         - feature/integration
         - hotfix
 
-# running the app
+# setting up the app
 
-start the puppeteer server 
+
+
+
+1. start the puppeteer server 
 ```bash
 npm run server-serve
 ```
 
-run commands from the client using the commandline 
-```bash
-npm run <command> -- <args>
-```
+2. run commands from the client using the commandline 

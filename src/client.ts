@@ -1,12 +1,10 @@
 #!/usr/bin/env ts-node
-
 import axios from "axios";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
 // Define the base URL of your server
-const BASE_URL = `http://localhost:3069`;
-
+const BASE_URL = `http://localhost:3000`;
 // Function to navigate to a URL
 async function navigate(url: string) {
   try {
@@ -20,7 +18,6 @@ async function navigate(url: string) {
     );
   }
 }
-
 /**
  * Function to click an element
  * usage -> npm run click "button[id = "W0wltc"]"
@@ -36,15 +33,15 @@ async function click(selector: string) {
     );
   }
 }
-
 /**
  * Function to type into an element
  * usage -> npm run type "#search-input" "OpenAI GPT-4"
  *  */ 
 async function type(selector: string, text: string) {
   try {
-    const response = await axios.post(`${BASE_URL}/type`, { selector, text });
-    console.log(response.data);
+    console.log('client, type', selector, text);
+    
+    await axios.post(`${BASE_URL}/type`, { selector, text });
   } catch (error: any) {
     console.error(
       `Error typing into ${selector}:`,
@@ -52,7 +49,6 @@ async function type(selector: string, text: string) {
     );
   }
 }
-
 // Function to evaluate a script
 async function evaluate(script: string) {
   try {
@@ -65,7 +61,6 @@ async function evaluate(script: string) {
     );
   }
 }
-
 // Function to get page content
 async function getContent() {
   try {
@@ -78,7 +73,6 @@ async function getContent() {
     );
   }
 }
-
 // Function to shutdown the server
 async function shutdown() {
   try {
@@ -91,8 +85,19 @@ async function shutdown() {
     );
   }
 }
-
-// Parse command-line arguments using yargs
+// Simulate pressing Enter
+async function pressEnter() {
+  try {
+    const response = await axios.post(`${BASE_URL}/pressEnter`);
+    console.log(response.data);
+  } catch (error: any) {
+    console.error(
+      `Error pressing Enter:`,
+      error.response?.data || error.message
+    );
+  }
+}
+// define command-line arguments to call the functions using yargs
 /**
   example of usage from terminal:
   ./client.ts navigate https://example.com
@@ -180,3 +185,5 @@ yargs(hideBin(process.argv))
   .help()
   .alias("help", "h")
   .parse();
+
+export { navigate, click, type, evaluate, getContent, shutdown, pressEnter };

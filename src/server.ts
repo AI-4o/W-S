@@ -2,7 +2,7 @@ import express, { NextFunction, Request, RequestHandler, Response } from 'expres
 import puppeteer, { Browser, ElementHandle, EvaluateFunc, Page } from 'puppeteer';
 
 const app = express();
-const port = 3069;
+const port = 3000;
 
 let browser: Browser;
 let page: Page;
@@ -41,17 +41,26 @@ app.post('/click', asyncHandler(async (req: Request, res: Response) => {
     if (!selector) {
       return res.status(400).send('Selector is required.');
     }
-    await page.click(selector);
-    res.send(`Clicked on ${selector}`);
+    await page.waitForSelector(selector, { timeout: 1000}).then(async () => {
+      await page.click(selector);
+      res.send(`Clicked on ${selector}`);
+    }).catch(() => {
+      res.status(200).send(`Element with selector "${selector}" not found.`);
+    });
   }));
 // Type into an element
 app.post('/type', asyncHandler(async (req: Request, res: Response) => {
     const { selector, text } = req.body;
+    console.log(req.body);
     if (!selector || !text) {
       return res.status(400).send('Selector and text are required.');
     }
-    await page.type(selector, text);
-    res.send(`Typed text into ${selector}`);
+    await page.waitForSelector(selector, { timeout: 1000}).then(async () => {
+      await page.type(selector, text);
+      res.send(`Typed text into ${selector}`);
+    }).catch(() => {
+      res.status(200).send(`Element with selector "${selector}" not found.`);
+    });
   }));
 // Evaluate a script
 app.post('/evaluate', asyncHandler(async (req: Request, res: Response) => {
@@ -59,24 +68,35 @@ app.post('/evaluate', asyncHandler(async (req: Request, res: Response) => {
     if (!script) {
       return res.status(400).send('Script is required.');
     }
-    
-    // Reconstruct the function body from the script string
-    const functionBody = `return (async () => { ${script} })();`;
-    
-    // Create a new Function object with the reconstructed body
-    const evaluateFunction = new Function(script);
-    if (!evaluateFunction) {
-      return res.status(400).send('Script is required.');
-    }
-    const bodyHandle = await page.$('body');
-    console.log(bodyHandle, evaluateFunction);
-    const result = await page.evaluate(
-        evaluateFunction as EvaluateFunc<[ElementHandle<HTMLBodyElement> | null]>, 
-        bodyHandle
-    );
-    await bodyHandle?.dispose();
+
+    const result = await page.evaluate((script) => {
+        try {
+            console.log('Evaluating script:', script);
+            const res = eval(script);
+            console.log('Result:', res);
+            // Check if res is an Element
+            if (res instanceof HTMLElement) {
+                // Return a serializable representation of the element
+                return {
+                    outerHTML: res.outerHTML,
+                    tagName: res.tagName,
+                    id: res.id,
+                    className: res.className,
+                    textContent: res.textContent,
+                };
+            }
+            return res;
+        } catch (err) {
+            if (err instanceof Error) {
+                return { error: err.message };
+            } else {
+                return { error: 'An unknown error occurred' };
+            }
+        }
+    }, script);
+
     res.json({ result });
-  }));
+}));
 // Get page content
 app.get('/content', asyncHandler(async (_req: Request, res: Response) => {
     const content = await page.content();
@@ -88,6 +108,11 @@ app.post('/shutdown', asyncHandler(async (_req: Request, res: Response) => {
     res.send('Browser closed.');
     process.exit(0);
   }));
+// Simulate pressing Enter
+app.post('/pressEnter', asyncHandler(async (req: Request, res: Response) => {
+    await page.keyboard.press('Enter');
+    res.send(`Pressed Enter`);
+}));
 // Centralized error handling
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack); // Log the error stack trace for debugging
