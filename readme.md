@@ -7,12 +7,13 @@ npm run server-serve
 ```
 
 2. run commands from the client using the commandline, e.g.
-the command
+the command:
 ```bash
 npm run navigate 'http://ai.aisoft.sh'
 ```
 will navigate to the url http://ai.aisoft.sh
-the command
+
+Whereas the command:
 ```bash
 npm run perform-google-search 'carpone'
 ```
