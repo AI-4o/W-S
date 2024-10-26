@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, RequestHandler, Response } from 'express';
-import puppeteer, { Browser, ElementHandle, EvaluateFunc, Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import { trimTextArray } from './utils/helpers';
 
 const app = express();
@@ -69,12 +69,10 @@ app.post('/evaluate', asyncHandler(async (req: Request, res: Response) => {
     if (!script) {
       return res.status(400).send('Script is required.');
     }
-
+    console.log("script: ", script);
     const result = await page.evaluate((script) => {
         try {
-            console.log('Evaluating script:', script);
             const res = eval(script);
-            console.log('Result:', res);
             // Check if res is an Element
             if (res instanceof HTMLElement) {
                 // Return a serializable representation of the element
@@ -84,7 +82,7 @@ app.post('/evaluate', asyncHandler(async (req: Request, res: Response) => {
                     tagName: res.tagName,
                     id: res.id,
                     className: res.className,
-                    textContent: trimTextArray(res.textContent),
+                    textContent: res.textContent,
                 };
             }
             return res;

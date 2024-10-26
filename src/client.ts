@@ -52,7 +52,12 @@ async function type(selector: string, text: string) {
 }
 /**
  * Function to evaluate a script
- * usage -> npm run evaluate "document.querySelector('h1').innerText"
+ * 
+ * examples:
+ * 1. npm run evaluate "document.querySelector('h1').innerText"
+ * 2. npm run evaluate "document.querySelectorAll('p')"
+ * 
+ * @param script - The script to evaluate
  */
 async function evaluate(script: string) {
   try {
@@ -66,32 +71,51 @@ async function evaluate(script: string) {
   }
 }
 /**
- * Function to scrape data from a selector
- * usage -> npm run scrape ".t-16.t-black.t-bold"
+ * Function to scrape the data of an HTMLElement from a selector,
+ * or the data of an array of HTMLElements from the array of the corresponding selectors
+ * 
+ * examples: 
+ * 1. npm run scrape ".t-16.t-black.t-bold" -> returns data of a single element
+ * 2. npm run scrape ".t-16, p, span" -> returns array of data of three elements
+ * 
+ * @param selector - The selector of the element to scrape the data from
+ * @param selectors - The array of selectors of the elements to scrape the data from
+ * @returns The data of the element or the array of data of the elements
  */
-async function scrapeData(selector?: string, selectors?: string[]) {
+async function scrapeDataWithQuerySelector(selector?: string, selectors?: string[]) {
   if (selector) {
     const data = await evaluate(`document.querySelector('${selector}')`);
     return data;
   }
   if (selectors) {
     const data: any[] = [];
-    //console.log("selectors: ", selectors);
     await execActionsChain({
       actions: selectors.map((selector) => {
-        return async () => data.push(await scrapeData(selector));
+        return async () => data.push(await scrapeDataWithQuerySelector(selector));
       }),
-      delay: 100,
+      delay: 300,
     });
     const trimmedData = data.map((d) => ({
       ...d,
-      textContent: trimTextArray(d.textContent),
+      textContent: trimTextArray(d?.textContent),
     }));
     //console.log("retrieved data: ", trimmedData);
     return trimmedData;
   }
 }
-// Function to get page content
+/**
+ * Function to scrape the data of an array of HTMLElements from a selector
+ * 
+ * @param selector - The selector of the elements to scrape the data from
+ * @returns The array of data of the elements
+ */
+async function scrapeDataWithQuerySelectorAll(selector: string) {
+  return await evaluate(`document.querySelectorAll('${selector}')`);
+  }
+/**
+ * Function to get page content
+ * usage -> npm run content
+ */
 async function getContent() {
   try {
     const response = await axios.get(`${BASE_URL}/content`);
@@ -103,7 +127,10 @@ async function getContent() {
     );
   }
 }
-// Function to shutdown the server
+/**
+ * Function to shutdown the server
+ * usage -> npm run shutdown
+ */
 async function shutdown() {
   try {
     const response = await axios.post(`${BASE_URL}/shutdown`);
@@ -115,7 +142,10 @@ async function shutdown() {
     );
   }
 }
-// Simulate pressing Enter
+/**
+ * Function to simulate pressing Enter
+ * usage -> npm run pressEnter
+ */
 async function pressEnter() {
   try {
     const response = await axios.post(`${BASE_URL}/pressEnter`);
@@ -221,7 +251,8 @@ export {
   click,
   type,
   evaluate,
-  scrapeData,
+  scrapeDataWithQuerySelector as scrapeData,
+  scrapeDataWithQuerySelectorAll as scrapeDataAll,
   getContent,
   shutdown,
   pressEnter,

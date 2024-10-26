@@ -23,8 +23,11 @@ const linkedinPassword = "Zyon2021";
 const dataSelectorsMap = {
   profileKeywords: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI > :nth-child(2)",
   location: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI:nth-of-type(2) > :first-child",
-  worksIn: ".jYYwgfPGDaFLUjAkzWHOwxwPMWxLRYiNCt:first-of-type",
-
+  companyName: ".jYYwgfPGDaFLUjAkzWHOwxwPMWxLRYiNCt:first-of-type",
+  description: "section[data-view-name='profile-card']:first-of-type",
+  services: "section[data-view-name='profile-card']:nth-of-type(2)",
+  experience: "section[data-view-name='profile-card']:nth-of-type(4)",
+  education: "section[data-view-name='profile-card']:nth-of-type(5)",
 };
 
 const goToLinkedin = async () => {
@@ -55,7 +58,7 @@ const scrapeContactData = async (contactName: string) => {
     ],
     delay: 1000,
   });
-  console.log("data: ", data);
+  console.log("data: ", data.map((d) => d.textContent));
   return data;
 };
 /**
@@ -78,7 +81,7 @@ const performLinkedinLogin = async (username: string, password: string) => {
         () => Cl.type("input#password", password),
         () => Cl.click("button[type='submit']"),
       ],
-      delays: [1000, 1000, 1000],
+      delays: [200, 200, 300],
     });
   };
   await H.execActionsChain({
