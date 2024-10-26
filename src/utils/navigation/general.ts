@@ -4,14 +4,20 @@ import * as Cl from "../../client";
 // This file contains functions to navigate on any website
 
 const scrapeData = async (selectors: string[]) => {
-  return await Cl.scrapeData('',selectors);
+  const data =  await Cl.scrapeData('',selectors);
+  console.log("data: ", data);
+  return data;
+};
+
+const scrapeDataAll = async (selector: string) => {
+  return await Cl.scrapeDataAll(selector);
 };
 
 // define command-line arguments to call the functions using yargs
 yargs(hideBin(process.argv))
   .command(
     "scrape <selectors>", // comma separated selectors of the form "selector1, selector2, ..., selectorN"
-    "Scrape the contact info from the linkedin contact page",
+    "Scrape data from the page",
     (yargs) => {
       yargs.positional("selectors", {
         type: "string",
@@ -28,4 +34,4 @@ yargs(hideBin(process.argv))
   .alias("help", "h")
   .parse();
 
-export { scrapeData };
+export { scrapeData, scrapeDataAll };

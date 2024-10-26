@@ -33,3 +33,10 @@ The app is structured in two parts:
 
 In other words, the server exposes endpoints for performing the atomic/basic user actions (navigate, click, type, press enter), for evaluating arbitrary javascript code, for retrievining the whole html of the current page, and for shutting down the server.
 A complex action (e.g. perform-linkedIn-login, search-contact, perform-google-search) is implemented in the client via a sequence of server requests. Actions are listed in the package.json file.
+
+# TODO
+  1. [ ] complete linkedin scraping adding the remaining data of a profile
+  2. [ ] implement layer that adds the retrieved data to a json file, and to a CSV file
+    2.1. [ ] implement a layer that sends the data to a database
+    2.2. [ ] implement data visualization via charts
+  3. [ ] implement app which converts the data of a profile into a CV and produces a webpage with the CV and a pdf
