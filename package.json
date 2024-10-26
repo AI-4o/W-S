@@ -17,7 +17,8 @@
     "perform-google-search": "ts-node src/utils/navigation/google.ts perform-google-search",
     "perform-linkedin-login": "ts-node src/utils/navigation/linkedin.ts perform-linkedin-login",
     "search-contact": "ts-node src/utils/navigation/linkedin.ts search-contact",
-    "scrape": "ts-node src/utils/navigation/linkedin.ts scrape"
+    "scrape": "ts-node src/utils/navigation/general.ts scrape",
+    "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data"
   },
   "keywords": [],
   "author": "",

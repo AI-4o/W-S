@@ -138,5 +138,21 @@ async function executeOCR(imagePath: string, prompt: string): Promise<string> {
     throw error;
   }
 }
+/**
+ * Get an array of trimmed strings from a string with multiple lines
+ * @param rawTextContent - The string to be processed
+ * @returns An array of trimmed strings
+ */
+const getTrimmedTextArrayFromString = (rawTextContent: string | null) =>
+  rawTextContent
+    ?.split("\n") // Split by newline
+    .map((line) => line.trim()) // Trim each line
+    .filter((line) => line.length > 0); // Filter out empty lines
 
-export { takeScreenshot, executeOCR, concatActions, execActionsChain };
+export {
+  takeScreenshot,
+  executeOCR,
+  concatActions,
+  execActionsChain,
+  getTrimmedTextArrayFromString as trimTextArray,
+};

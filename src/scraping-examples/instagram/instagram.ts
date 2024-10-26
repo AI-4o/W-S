@@ -1,11 +1,16 @@
-import { openChromePage, execActionsChain } from "../utils/helpers";
+import { execActionsChain } from "../../utils/helpers";
 import { Page } from "puppeteer";
 
 const DATE_NAME = "Antoinette Bocchiny";
 const instagramUsername = process.env.INSTAGRAM_USERNAME;
 const instagramPassword = process.env.INSTAGRAM_PASSWORD;
 const START_PAGE = "https://www.instagram.com/accounts";
-
+const defaultMessage = (dateName: string, optionalBullshit?: string) => {
+  const basicBullshit =   `Hello ${dateName}😃
+  I saw your contact on a dating app. 
+  I think you are a very beautiful woman and I would like to know you better 😉`;
+    return optionalBullshit ? `${basicBullshit}\n${optionalBullshit}` : basicBullshit;
+  };
 const writeMessage = async (dateName: string, message: string, doLogin = true) => {
   if (!instagramUsername || !instagramPassword) {
     throw new Error("Instagram username or password is not set");
@@ -23,7 +28,7 @@ const writeMessage = async (dateName: string, message: string, doLogin = true) =
   await execActionsChain({actions, delays});
 }
 
-writeMessage(DATE_NAME, "fai footjob");
+writeMessage(DATE_NAME, "execute blowjob");
 
 /**
  * Open the contacts search input.

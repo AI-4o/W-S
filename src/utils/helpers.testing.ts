@@ -48,7 +48,7 @@ const testTakeScreenshot = async () => {
 // test the ocr.py script
 const imagePath = "/Users/a.i./Dev-test/hacking/langchain/screenshots/screenshot_2024-10-20_09-26-33.png";
 function testOCR() {
-    executeOCR(imagePath)
+    executeOCR(imagePath, 'extract the text of the instagram code from the image')
       .then((text: any) => {
         console.log(text);
       })
@@ -58,11 +58,3 @@ function testOCR() {
 }
 
 // testOCR();
-
-// test take screenshot and execute ocr
-const testTakeScreenshotAndOCR = async () => {
-    const screenshotPath = await takeScreenshot();
-    const igCode = await executeOCR(screenshotPath);
-    console.log('The ig code is: ', igCode);
-}
-// testTakeScreenshotAndOCR();

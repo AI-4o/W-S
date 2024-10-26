@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, RequestHandler, Response } from 'express';
 import puppeteer, { Browser, ElementHandle, EvaluateFunc, Page } from 'puppeteer';
+import { trimTextArray } from './utils/helpers';
 
 const app = express();
 const port = 3000;
@@ -78,11 +79,12 @@ app.post('/evaluate', asyncHandler(async (req: Request, res: Response) => {
             if (res instanceof HTMLElement) {
                 // Return a serializable representation of the element
                 return {
+                    text: res.innerText,
                     outerHTML: res.outerHTML,
                     tagName: res.tagName,
                     id: res.id,
                     className: res.className,
-                    textContent: res.textContent,
+                    textContent: trimTextArray(res.textContent),
                 };
             }
             return res;

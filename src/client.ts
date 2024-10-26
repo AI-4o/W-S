@@ -2,6 +2,7 @@
 import axios from "axios";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+import { execActionsChain, trimTextArray } from "./utils/helpers";
 
 // Define the base URL of your server
 const BASE_URL = `http://localhost:3000`;
@@ -21,7 +22,7 @@ async function navigate(url: string) {
 /**
  * Function to click an element
  * usage -> npm run click "button[id = "W0wltc"]"
- *  */ 
+ *  */
 async function click(selector: string) {
   try {
     const response = await axios.post(`${BASE_URL}/click`, { selector });
@@ -36,11 +37,11 @@ async function click(selector: string) {
 /**
  * Function to type into an element
  * usage -> npm run type "#search-input" "OpenAI GPT-4"
- *  */ 
+ *  */
 async function type(selector: string, text: string) {
   try {
-    console.log('client, type', selector, text);
-    
+    console.log("client, type", selector, text);
+
     await axios.post(`${BASE_URL}/type`, { selector, text });
   } catch (error: any) {
     console.error(
@@ -49,16 +50,45 @@ async function type(selector: string, text: string) {
     );
   }
 }
-// Function to evaluate a script
+/**
+ * Function to evaluate a script
+ * usage -> npm run evaluate "document.querySelector('h1').innerText"
+ */
 async function evaluate(script: string) {
   try {
     const response = await axios.post(`${BASE_URL}/evaluate`, { script });
-    console.log("Evaluation result:", response.data.result);
+    return response.data.result;
   } catch (error: any) {
     console.error(
       `Error evaluating script:`,
       error.response?.data || error.message
     );
+  }
+}
+/**
+ * Function to scrape data from a selector
+ * usage -> npm run scrape ".t-16.t-black.t-bold"
+ */
+async function scrapeData(selector?: string, selectors?: string[]) {
+  if (selector) {
+    const data = await evaluate(`document.querySelector('${selector}')`);
+    return data;
+  }
+  if (selectors) {
+    const data: any[] = [];
+    //console.log("selectors: ", selectors);
+    await execActionsChain({
+      actions: selectors.map((selector) => {
+        return async () => data.push(await scrapeData(selector));
+      }),
+      delay: 100,
+    });
+    const trimmedData = data.map((d) => ({
+      ...d,
+      textContent: trimTextArray(d.textContent),
+    }));
+    //console.log("retrieved data: ", trimmedData);
+    return trimmedData;
   }
 }
 // Function to get page content
@@ -186,4 +216,13 @@ yargs(hideBin(process.argv))
   .alias("help", "h")
   .parse();
 
-export { navigate, click, type, evaluate, getContent, shutdown, pressEnter };
+export {
+  navigate,
+  click,
+  type,
+  evaluate,
+  scrapeData,
+  getContent,
+  shutdown,
+  pressEnter,
+};
