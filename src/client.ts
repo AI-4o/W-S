@@ -52,6 +52,20 @@ async function type(selector: string, text: string) {
   }
 }
 /**
+ * Function to clear text in an input field
+ * usage -> npm run clearInput "#search-input"
+ *  */
+async function clearInput(selector: string) {
+  try {
+    await axios.post(`${BASE_URL}/clearInput`, { selector });
+  } catch (error: any) {
+    console.error(
+      `Error clearing text in ${selector}:`,
+      error.response?.data || error.message
+    );
+  }
+}
+/**
  * Function to evaluate a script
  * 
  * examples:
@@ -269,4 +283,5 @@ export {
   getContent,
   shutdown,
   pressEnter,
+  clearInput
 };

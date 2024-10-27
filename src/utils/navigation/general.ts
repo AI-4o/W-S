@@ -1,7 +1,6 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import * as Cl from "../../client";
-import type { DomElementData } from "../../models";
 
 // This file contains functions to navigate on any website
 

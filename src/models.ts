@@ -1,5 +1,4 @@
 export type DomElementData = {
-    text?: string;
     outerHTML?: string;
     tagName?: string;
     id?: string;

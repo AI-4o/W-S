@@ -21,20 +21,29 @@ const dataSelectorsMap = {
   profileKeywords: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI > :nth-child(2)",
   location: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI:nth-of-type(2) > :first-child",
   companyName: ".jYYwgfPGDaFLUjAkzWHOwxwPMWxLRYiNCt:first-of-type",
-  
+
 };
 
 const goToLinkedin = async () => {
   return await Cl.navigate(linkedinUrl);
 };
 /**
- * Search for a contact by name in the linkedin search bar.
+ * Search for a contact by name in the linkedin search bar,
+ * and open the contact page.
+ * In particular, the following actioins are performed:
+ * - click on the search button
+ * - clear the search input
+ * - type the contact name in the search input
+ * - press enter
+ * - click on the contact profile image
+ * 
  * @param contactName The name of the contact to search for
  */
 const searchContact = async (contactName: string) => {
   await H.execActionsChain({
     actions: [
       () => Cl.click("button.search-global-typeahead__collapsed-search-button"),
+      () => Cl.clearInput("input.search-global-typeahead__input"),
       () => Cl.type("input.search-global-typeahead__input", contactName),
       () => Cl.pressEnter(),
       () => Cl.click(".presence-entity__image")

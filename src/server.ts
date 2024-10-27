@@ -83,6 +83,29 @@ app.post(
       });
   })
 );
+// Clear text in an input field
+app.post(
+  "/clearInput",
+  asyncHandler(async (req: Request, res: Response) => {
+    const { selector } = req.body;
+    if (!selector) {
+      return res.status(400).send("Selector is required.");
+    }
+    await page
+      .waitForSelector(selector, { timeout: 1000 })
+      .then(async () => {
+        await page.focus(selector); // Focus on the input field
+        await page.keyboard.down('Control'); // Hold down the Control key
+        await page.keyboard.press('A'); // Select all text
+        await page.keyboard.up('Control'); // Release the Control key
+        await page.keyboard.press('Backspace'); // Delete the selected text
+        res.send(`Cleared text in ${selector}`);
+      })
+      .catch(() => {
+        res.status(200).send(`Element with selector "${selector}" not found.`);
+      });
+  })
+);
 // Evaluate a script
 app.post(
   "/evaluate",
