@@ -4,12 +4,9 @@ import * as Cl from "../../client";
 import * as H from "../helpers";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { scrapeData } from "./general";
+import { scrapeQSelector, scrapeQSelectorAll } from "./general";
 
 // This file contains functions to navigate on google.com
-
-const linkedInEmail = 'alfredo.ingraldo.u@gmail.com'
-const linkedInPassword = 'zyon2021'
 
 /**
  * Open the chrome page of given pageUrl using puppeteer, and return the page object.
@@ -24,10 +21,7 @@ const dataSelectorsMap = {
   profileKeywords: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI > :nth-child(2)",
   location: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI:nth-of-type(2) > :first-child",
   companyName: ".jYYwgfPGDaFLUjAkzWHOwxwPMWxLRYiNCt:first-of-type",
-  description: "section[data-view-name='profile-card']:first-of-type",
-  services: "section[data-view-name='profile-card']:nth-of-type(2)",
-  experience: "section[data-view-name='profile-card']:nth-of-type(4)",
-  education: "section[data-view-name='profile-card']:nth-of-type(5)",
+  
 };
 
 const goToLinkedin = async () => {
@@ -54,11 +48,10 @@ const scrapeContactData = async (contactName: string) => {
   await H.execActionsChain({
     actions: [
       () => searchContact(contactName),
-      async () => data = await scrapeData(Object.values(dataSelectorsMap)),
+      async () => data = await scrapeQSelector(Object.values(dataSelectorsMap)),
     ],
     delay: 1000,
   });
-  console.log("data: ", data.map((d) => d.textContent));
   return data;
 };
 /**

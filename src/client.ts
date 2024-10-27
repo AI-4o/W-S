@@ -2,7 +2,8 @@
 import axios from "axios";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { execActionsChain, trimTextArray } from "./utils/helpers";
+import { execActionsChain, trim } from "./utils/helpers";
+import { isDomElementData } from "./models";
 
 // Define the base URL of your server
 const BASE_URL = `http://localhost:3000`;
@@ -74,6 +75,8 @@ async function evaluate(script: string) {
  * Function to scrape the data of an HTMLElement from a selector,
  * or the data of an array of HTMLElements from the array of the corresponding selectors
  * 
+ * the output has its textContent field already trimmed.
+ * 
  * examples: 
  * 1. npm run scrape ".t-16.t-black.t-bold" -> returns data of a single element
  * 2. npm run scrape ".t-16, p, span" -> returns array of data of three elements
@@ -82,25 +85,26 @@ async function evaluate(script: string) {
  * @param selectors - The array of selectors of the elements to scrape the data from
  * @returns The data of the element or the array of data of the elements
  */
-async function scrapeDataWithQuerySelector(selector?: string, selectors?: string[]) {
+async function scrapeQSelector(selector?: string, selectors?: string[]) {
   if (selector) {
     const data = await evaluate(`document.querySelector('${selector}')`);
+    if(isDomElementData(data)) {
+      return {
+        ...data,
+        textContent: trim(data?.textContent),
+      };
+    }
     return data;
   }
   if (selectors) {
     const data: any[] = [];
     await execActionsChain({
       actions: selectors.map((selector) => {
-        return async () => data.push(await scrapeDataWithQuerySelector(selector));
+        return async () => data.push(await scrapeQSelector(selector));
       }),
       delay: 300,
     });
-    const trimmedData = data.map((d) => ({
-      ...d,
-      textContent: trimTextArray(d?.textContent),
-    }));
-    //console.log("retrieved data: ", trimmedData);
-    return trimmedData;
+    return data;
   }
 }
 /**
@@ -109,9 +113,18 @@ async function scrapeDataWithQuerySelector(selector?: string, selectors?: string
  * @param selector - The selector of the elements to scrape the data from
  * @returns The array of data of the elements
  */
-async function scrapeDataWithQuerySelectorAll(selector: string) {
-  return await evaluate(`document.querySelectorAll('${selector}')`);
+async function scrapeQSelectorAll(selector: string) {
+  const data =  await evaluate(`document.querySelectorAll('${selector}')`);
+  if(Array.isArray(data)) {
+    return data.map((d) => {
+      if(isDomElementData(d)) {
+        return { ...d, textContent: trim(d?.textContent) };
+      }
+      return d;
+    });
   }
+  return data;
+}
 /**
  * Function to get page content
  * usage -> npm run content
@@ -251,8 +264,8 @@ export {
   click,
   type,
   evaluate,
-  scrapeDataWithQuerySelector as scrapeData,
-  scrapeDataWithQuerySelectorAll as scrapeDataAll,
+  scrapeQSelector,
+  scrapeQSelectorAll,
   getContent,
   shutdown,
   pressEnter,
