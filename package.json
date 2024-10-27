@@ -18,6 +18,7 @@
     "perform-linkedin-login": "ts-node src/utils/navigation/linkedin.ts perform-linkedin-login",
     "search-contact": "ts-node src/utils/navigation/linkedin.ts search-contact",
     "scrape": "ts-node src/utils/navigation/general.ts scrape",
+    "scrape-all": "ts-node src/utils/navigation/general.ts scrape-all",
     "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data"
   },
   "keywords": [],
