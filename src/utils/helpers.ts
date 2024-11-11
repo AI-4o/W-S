@@ -53,7 +53,14 @@ const concatActions = async ({
 };
 /**
  * get a promise that resolves when all actions are executed sequentially with the given delays
- * each action is executed against the value returned by the previous action
+ * each action is executed against the value returned by the previous action.
+ *
+ * The n-th action is executed n*1000 + delays[n] milliseconds after the (n-1)-th action has been executed.
+ * If no delays are provided, the delay of each action is set to 1000 milliseconds.
+ * 
+ * @param actions - The functions to execute
+ * @param delay - The delay between the functions
+ * @param delays - The delays between the functions
  */
 const execActionsChain = async ({
   actions,

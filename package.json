@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-filter": "ts-node src/utils/helpers.testing.ts test-filter-data",
+    "test-create-json": "ts-node src/utils/helpers.testing.ts test-create-json",
     "start": "node scripts/run.js",
     "server-start": "node scripts/server-start.js",
     "server-serve": "tsc && node dist/server.js",
@@ -19,7 +20,9 @@
     "search-contact": "ts-node src/utils/navigation/linkedin.ts search-contact",
     "scrape": "ts-node src/utils/navigation/general.ts scrape",
     "scrape-all": "ts-node src/utils/navigation/general.ts scrape-all",
-    "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data"
+    "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data",
+    "get-piva-json": "ts-node scripts/extractJSON.ts get-piva-json",
+    "scrape-piva": "ts-node src/utils/navigation/ufficioCamerale.ts scrape-piva"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +43,7 @@
     "langchain": "^0.3.2",
     "puppeteer": "^23.5.3",
     "ts-node": "^10.9.2",
+    "xlsx": "^0.18.5",
     "yargs": "^17.7.2"
   }
 }

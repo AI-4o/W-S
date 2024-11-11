@@ -4,7 +4,7 @@ import * as Cl from "../../client";
 import * as H from "../helpers";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { scrapeQSelector, scrapeQSelectorAll } from "./general";
+import { scrapeQSelector } from "./general";
 
 // This file contains functions to navigate on google.com
 
@@ -18,10 +18,8 @@ const linkedinEmail = "alfredo.ingraldo.u@gmail.com";
 const linkedinPassword = "Zyon2021";
 
 const dataSelectorsMap = {
-  profileKeywords: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI > :nth-child(2)",
-  location: ".WgMsxIjLbnvOSeVhCjwqivuZXVVrfYHdHI:nth-of-type(2) > :first-child",
-  companyName: ".jYYwgfPGDaFLUjAkzWHOwxwPMWxLRYiNCt:first-of-type",
-
+  profileKeywords: ".nJEnUxuXHBXbhOOJxiynWspLsgDLcYbaBk > :nth-child(2)",
+  location: ".nJEnUxuXHBXbhOOJxiynWspLsgDLcYbaBk:nth-of-type(2) > :first-child",
 };
 
 const goToLinkedin = async () => {
@@ -36,7 +34,7 @@ const goToLinkedin = async () => {
  * - type the contact name in the search input
  * - press enter
  * - click on the contact profile image
- * 
+ *
  * @param contactName The name of the contact to search for
  */
 const searchContact = async (contactName: string) => {
@@ -46,9 +44,9 @@ const searchContact = async (contactName: string) => {
       () => Cl.clearInput("input.search-global-typeahead__input"),
       () => Cl.type("input.search-global-typeahead__input", contactName),
       () => Cl.pressEnter(),
-      () => Cl.click(".presence-entity__image")
+      () => Cl.click(".presence-entity__image"),
     ],
-    delay: 500,
+    delays: [0, 0, 0, 0, 500],
   });
 };
 
@@ -57,9 +55,10 @@ const scrapeContactData = async (contactName: string) => {
   await H.execActionsChain({
     actions: [
       () => searchContact(contactName),
-      async () => data = await scrapeQSelector(Object.values(dataSelectorsMap)),
+      async () =>
+        (data = await scrapeQSelector(Object.values(dataSelectorsMap))),
     ],
-    delay: 1000,
+    delays: [0, 500],
   });
   return data;
 };

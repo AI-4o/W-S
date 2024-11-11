@@ -44,6 +44,18 @@ app.post(
     res.send(`Navigated to ${url}`);
   })
 );
+// Wait for an element
+app.post(
+  "/waitForSelector",
+  asyncHandler(async (req: Request, res: Response) => {
+    const { selector } = req.body;
+    await page.waitForSelector(selector).then(() => {
+      res.send(`Waited for ${selector}`);
+    }).catch(() => {
+      res.status(404).send(`Element with selector "${selector}" not found.`);
+    });
+  })
+);
 // Click an element
 app.post(
   "/click",

@@ -21,6 +21,17 @@ async function navigate(url: string) {
   }
 }
 /**
+ * Function to wait for an element
+ * usage -> npm run waitForSelector ".some-element"
+ */
+async function waitForSelector(selector: string) {
+  const response = await axios.post(`${BASE_URL}/waitForSelector`, {
+    selector,
+  });
+  console.log('waitForSelector response: ', selector, response.status);
+  return response;
+}
+/**
  * Function to click an element
  * usage -> npm run click "button[id = "W0wltc"]"
  *  */
@@ -42,7 +53,6 @@ async function click(selector: string) {
 async function type(selector: string, text: string) {
   try {
     console.log("client, type", selector, text);
-
     await axios.post(`${BASE_URL}/type`, { selector, text });
   } catch (error: any) {
     console.error(
@@ -67,11 +77,11 @@ async function clearInput(selector: string) {
 }
 /**
  * Function to evaluate a script
- * 
+ *
  * examples:
  * 1. npm run evaluate "document.querySelector('h1').innerText"
  * 2. npm run evaluate "document.querySelectorAll('p')"
- * 
+ *
  * @param script - The script to evaluate
  */
 async function evaluate(script: string) {
@@ -88,13 +98,13 @@ async function evaluate(script: string) {
 /**
  * Function to scrape the data of an HTMLElement from a selector,
  * or the data of an array of HTMLElements from the array of the corresponding selectors
- * 
+ *
  * the output has its textContent field already trimmed.
- * 
- * examples: 
+ *
+ * examples:
  * 1. npm run scrape ".t-16.t-black.t-bold" -> returns data of a single element
  * 2. npm run scrape ".t-16, p, span" -> returns array of data of three elements
- * 
+ *
  * @param selector - The selector of the element to scrape the data from
  * @param selectors - The array of selectors of the elements to scrape the data from
  * @returns The data of the element or the array of data of the elements
@@ -102,7 +112,7 @@ async function evaluate(script: string) {
 async function scrapeQSelector(selector?: string, selectors?: string[]) {
   if (selector) {
     const data = await evaluate(`document.querySelector('${selector}')`);
-    if(isDomElementData(data)) {
+    if (isDomElementData(data)) {
       return {
         ...data,
         textContent: trim(data?.textContent),
@@ -123,15 +133,15 @@ async function scrapeQSelector(selector?: string, selectors?: string[]) {
 }
 /**
  * Function to scrape the data of an array of HTMLElements from a selector
- * 
+ *
  * @param selector - The selector of the elements to scrape the data from
  * @returns The array of data of the elements
  */
 async function scrapeQSelectorAll(selector: string) {
-  const data =  await evaluate(`document.querySelectorAll('${selector}')`);
-  if(Array.isArray(data)) {
+  const data = await evaluate(`document.querySelectorAll('${selector}')`);
+  if (Array.isArray(data)) {
     return data.map((d) => {
-      if(isDomElementData(d)) {
+      if (isDomElementData(d)) {
         return { ...d, textContent: trim(d?.textContent) };
       }
       return d;
@@ -275,6 +285,7 @@ yargs(hideBin(process.argv))
 
 export {
   navigate,
+  waitForSelector,
   click,
   type,
   evaluate,
@@ -283,5 +294,5 @@ export {
   getContent,
   shutdown,
   pressEnter,
-  clearInput
+  clearInput,
 };
