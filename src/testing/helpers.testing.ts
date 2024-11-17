@@ -1,7 +1,7 @@
 import yargs from "yargs";
-import { execActionsChain, executeOCR, takeScreenshot } from "./helpers";
-import { concatActions } from "./helpers";
-import { createJsonFromFilteredData, filterData } from "./navigation/ufficioCamerale";
+import { execActionsChain, executeOCR, takeScreenshot } from "../utils/helpers";
+import { concatActions } from "../utils/helpers";
+import { createJsonFromFilteredData, filterData } from "../utils/navigation/ufficioCamerale";
 import { hideBin } from "yargs/helpers";
 
 // test the concatActions helper function

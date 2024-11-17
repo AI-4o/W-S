@@ -1,7 +1,8 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import * as Cl from "../../client";
-
+import * as H from "../helpers";
+import { ExecActionsChainError} from "../errors";
 // This file contains functions to navigate on any website
 
 /**
@@ -10,10 +11,13 @@ import * as Cl from "../../client";
  * @returns an array of data objects corresponfing to the selected HTMLElements returned by querySelector
  */
 const scrapeQSelector = async (selectors: string[]) => {
-  const data =  await Cl.scrapeQSelector('',selectors);
-  console.log("the scraped data: ", data.map((d: any) => d.textContent));
+  const data = await Cl.scrapeQSelector("", selectors);
+  console.log(
+    "the scraped data: ",
+    data.map((d: any) => d.textContent)
+  );
   return data;
-}
+};
 /**
  * Scrape data from the page using querySelectorAll on a single selector
  * @param selector - the selector to scrape the data from
@@ -23,10 +27,38 @@ const scrapeQSelectorAll = async (selector: string) => {
   const data = await Cl.scrapeQSelectorAll(selector);
 
   console.log(
-    'is data an array of data objects?: ', Array.isArray(data),
-    'is data[0] of type DomELementData?: ', typeof data[0] === 'object',
-    "the scraped data textContent: ", data.map((d: any) => d.textContent));
+    "is data an array of data objects?: ",
+    Array.isArray(data),
+    "is data[0] of type DomELementData?: ",
+    typeof data[0] === "object",
+    "the scraped data textContent: ",
+    data.map((d: any) => d.textContent)
+  );
   return data;
+};
+/**
+ * Execute a chain of actions on the page until they are all successfully executed or the maximum number of tries is reached.
+ *
+ * @param actionsChain - an array of functions to be executed on the page
+ * @param maxTries - the maximum number of tries to execute the actions
+ * @param delay - a relative delay factor between each action
+ */
+export const repeatedAttack = async (actionsChain: (() => Promise<void>)[], maxTries = 7, delay = 800) : Promise<void> => {
+  let tries = 0;
+  while (tries < maxTries) {
+    await H.execActionsChain({
+      actions: actionsChain,
+      delay: delay,
+    })
+      .then(() => (tries = maxTries)) // success -> set tries to maxTries and end the cycle
+      .catch(async (e: ExecActionsChainError) => {
+        // fail -> try again to execute the actions, from the failing one
+        console.log(
+          `error in scraping piva execActionsChain, tried ${tries + 1}-times`
+        );
+        tries++;
+      });
+  }
 };
 // define command-line arguments to call the functions using yargs
 yargs(hideBin(process.argv))
@@ -36,7 +68,8 @@ yargs(hideBin(process.argv))
     (yargs) => {
       yargs.positional("selectors", {
         type: "string",
-        describe: "The selectors to scrape the contact info from, comma separated",
+        describe:
+          "The selectors to scrape the contact info from, comma separated",
         coerce: (arg) => arg.split(", "), // Convert comma-separated string to array
       });
     },

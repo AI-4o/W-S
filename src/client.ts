@@ -35,16 +35,20 @@ async function waitForSelector(selector: string) {
  * Function to click an element
  * usage -> npm run click "button[id = "W0wltc"]"
  *  */
-async function click(selector: string) {
+async function click(selector: string, reqCount: number = 1) {
   try {
-    const response = await axios.post(`${BASE_URL}/click`, { selector });
+    const response = await axios.post(`${BASE_URL}/click`, { selector: selector});
     console.log(response.data);
   } catch (error: any) {
     console.error(
       `Error clicking ${selector}:`,
       error.response?.data || error.message
     );
+  throw new Error('CLICK_FAIL_ERROR');
   }
+}
+const consoleStyles = { 
+  first: "color: red; font-size: 16px; background-color: yellow; font-weight: bold;"
 }
 /**
  * Function to type into an element

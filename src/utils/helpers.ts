@@ -2,11 +2,10 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import puppeteer, { Page } from "puppeteer";
 import { DomElementData } from "../models";
+import { ExecActionsChainError } from "./errors";
 
 // General helper functions for tecnical tasks
-
 const execAsync = promisify(exec);
-
 /**
  * Execute a sequence of functions with a relative delay of delays[index] milliseconds.
  * @param actions - The functions to execute
@@ -77,23 +76,26 @@ const execActionsChain = async ({
   else {
     d_ = Array(actions.length).fill(1000);
   }
-  // compute times of execution of each action
-  const timesOfExecution = new Array(actions.length)
-    .fill(0)
-    .map((_, i) => Math.max(0, 1000 * i) + d_[i]);
   // return a promise that resolves when all actions are executed sequentially
-  return actions.reduce(
-    (prevPromise, action, i) =>
-      prevPromise.then((value) => {
-        return new Promise<any>((resolve) => {
-          setTimeout(() => {
-            const result = action(value); // execute action against the value returned by the previous action
-            resolve(result); // Pass the result to the next promise
-          }, timesOfExecution[i]);
-        });
-      }),
-    Promise.resolve()
-  );
+
+
+  return actions.reduce((prevPromise, action, i) => {
+
+    return prevPromise.then((value) => {
+      return new Promise<any>((resolve, reject) => {
+        setTimeout(() => {
+          Promise.resolve()
+            .then(action)
+            .then(resolve)
+            .catch((error) => {
+              // Reject with an ExecActionsChainError containing the index
+              reject(new ExecActionsChainError(`Error in execActionsChain: ${error}`, i));
+            });
+        }, d_[i]);
+      });
+    })
+  }, 
+  Promise.resolve())
 };
 /**
  * Executes mac_screenshot.applescript
@@ -158,7 +160,6 @@ const trim = (rawTextContent: string | null | undefined) => {
     .map((line) => line.trim()) // Trim each line
     .filter((line) => line.length > 0); // Filter out empty lines
 }
-
 export {
   takeScreenshot,
   executeOCR,

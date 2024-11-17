@@ -1,0 +1,38 @@
+{
+  "data": [
+    {
+      "ateco": "noleggio di macchine e attrezzature per ufficio (inclusi i computer)",
+      "Dipendenti": "6 (2024)",
+      "piva": "04257240988"
+    },
+    {
+      "utile": "€ 1.023.312,00 (2023)",
+      "ateco": "altre attività dei servizi connessi alle tecnologie dell'informatica",
+      "dipendenti": "325 (2024)",
+      "fatturato": "€ 132.126.761,00 (2023) acquista bilancio              dipendenti",
+      "piva": "08820850967"
+    },
+    {
+      "utile": "€ 114.107,00 (2023)",
+      "ateco": "commercio all'ingrosso di computer, apparecchiature informatiche periferiche e di software",
+      "dipendenti": "61 (2024)",
+      "fatturato": "€ 16.430.090,00 (2023) acquista bilancio              dipendenti",
+      "piva": "00614130128"
+    },
+    {
+      "utile": "€ 844.853,00 (2023)",
+      "ateco": "commercio all'ingrosso di computer, apparecchiature informatiche periferiche e di software",
+      "dipendenti": "26 (2024)",
+      "fatturato": "€ 27.857.406,00 (2023) acquista bilancio",
+      "piva": "01705000212"
+    },
+    { "piva": "07393280016" },
+    {
+      "ateco": "46.51",
+      "dipendenti": "da 50 a 99",
+      "utile": "€ 2.418.833",
+      "fatturato": "€ 49.310.185acquista bilancio",
+      "piva": "07393280016"
+    }
+  ]
+}

@@ -18,11 +18,13 @@
     "perform-google-search": "ts-node src/utils/navigation/google.ts perform-google-search",
     "perform-linkedin-login": "ts-node src/utils/navigation/linkedin.ts perform-linkedin-login",
     "search-contact": "ts-node src/utils/navigation/linkedin.ts search-contact",
-    "scrape": "ts-node src/utils/navigation/general.ts scrape",
     "scrape-all": "ts-node src/utils/navigation/general.ts scrape-all",
     "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data",
     "get-piva-json": "ts-node scripts/extractJSON.ts get-piva-json",
-    "scrape-piva": "ts-node src/utils/navigation/ufficioCamerale.ts scrape-piva"
+    "scrape-piva-ufficio-camerale": "ts-node src/utils/navigation/ufficioCamerale.ts scrape-piva-ufficio-camerale",
+    "scrape-piva-company-reports": "ts-node src/utils/navigation/companyReports.ts scrape-piva-company-reports",
+    "scrape-piva-general": "ts-node src/utils/generalScraping.ts scrape-piva-general"
+
   },
   "keywords": [],
   "author": "",
@@ -38,6 +40,7 @@
     "@langchain/core": "^0.3.11",
     "@langchain/openai": "^0.3.7",
     "axios": "^1.7.7",
+    "chalk": "^5.3.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "langchain": "^0.3.2",

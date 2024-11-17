@@ -65,13 +65,13 @@ app.post(
       return res.status(400).send("Selector is required.");
     }
     await page
-      .waitForSelector(selector, { timeout: 1000 })
+      .waitForSelector(selector, { timeout: 1200 })
       .then(async () => {
         await page.click(selector);
         res.send(`Clicked on ${selector}`);
       })
       .catch(() => {
-        res.status(200).send(`Element with selector "${selector}" not found.`);
+        res.status(404).send(`Element with selector "${selector}" not found.`);
       });
   })
 );

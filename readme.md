@@ -44,3 +44,27 @@ A complex action (e.g. perform-linkedIn-login, search-contact, perform-google-se
   4. [ ] implement data visualization via charts
   5. [ ] implement app which converts the data of a profile into a CV and produces a webpage with the CV and a pdf
    desiderata: 
+
+
+
+* []  applicazione Laccetti
+1. viene fornito file excel con partite iva 
+
+- WEB-SCRAPING:
+
+per ogni partita iva vogliamo le info da 
+ufficio camerale: 
+• fatturato
+• utile
+• numero dipendenti 
+• ateco
+
+creare excel con tabella con queste quattro info
+
+- Prendere info da dei siti -> 
+
+- modelli predittivi (segmentazioni clienti, mappare bisogni clienti)
+
+- automatizzazione excel
+
+- lezioni
