@@ -20,11 +20,8 @@
     "search-contact": "ts-node src/utils/navigation/linkedin.ts search-contact",
     "scrape-all": "ts-node src/utils/navigation/general.ts scrape-all",
     "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data",
-    "get-piva-json": "ts-node scripts/extractJSON.ts get-piva-json",
-    "scrape-piva-ufficio-camerale": "ts-node src/utils/navigation/ufficioCamerale.ts scrape-piva-ufficio-camerale",
-    "scrape-piva-company-reports": "ts-node src/utils/navigation/companyReports.ts scrape-piva-company-reports",
-    "scrape-piva-general": "ts-node src/utils/generalScraping.ts scrape-piva-general"
-
+    "scrape-pivas": "ts-node src/scraping-examples/pivas/main.ts scrape-pivas",
+    "reset-piva-json": "ts-node src/scraping-examples/pivas/main.ts reset-piva-json"
   },
   "keywords": [],
   "author": "",

@@ -66,10 +66,10 @@ const execActionsChain = async ({
   delay,
   delays,
 }: {
-  actions: ((z?: any) => void)[];
+  actions: ((z?: any) => any)[];
   delay?: number;
   delays?: number[];
-}) => {
+}): Promise<any> => {
   let d_: number[] = [];
   if (delay) d_ = Array(actions.length).fill(delay);
   else if (delays && delays.length == actions.length) d_ = delays;
@@ -86,7 +86,7 @@ const execActionsChain = async ({
         setTimeout(() => {
           Promise.resolve()
             .then(action)
-            .then(resolve)
+            .then((value) => resolve(value))
             .catch((error) => {
               // Reject with an ExecActionsChainError containing the index
               reject(new ExecActionsChainError(`Error in execActionsChain: ${error}`, i));
@@ -96,6 +96,32 @@ const execActionsChain = async ({
     })
   }, 
   Promise.resolve())
+};
+/**
+ * Execute a chain of actions on the page until they are all successfully executed or the maximum number of tries is reached.
+ *
+ * @param actionsChain - an array of functions to be executed on the page
+ * @param maxTries - the maximum number of tries to execute the actions
+ * @param delay - a relative delay factor between each action
+ */
+export const repeatedAttack = async (actionsChain: (() => Promise<any>)[], maxTries = 7, delay = 1000) => {
+  let tries = 0;
+  let result: any;
+  while (tries < maxTries) {
+    result = await execActionsChain({
+      actions: actionsChain,
+      delay: delay,
+    })
+      .then((value) => {tries = maxTries; console.log(`repeated attack n. ${tries +1} success`); return value}) // success -> set tries to maxTries and end the cycle
+      .catch(async (e: ExecActionsChainError) => {
+        // fail -> try again to execute the actions, from the failing one
+        console.log(
+          `error in scraping piva execActionsChain, tried ${tries + 1}-times`
+        );
+        tries++;
+      });
+  }
+  return result;
 };
 /**
  * Executes mac_screenshot.applescript

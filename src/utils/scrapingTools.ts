@@ -1,15 +1,17 @@
+import { retrievedData } from "./testCompanyReports";
+
 /**
  * Add the filtered data to a json file.
  * @param filteredData The filtered data
  * @param outputPath The path of the json file
  */
-export const createJsonFromFilteredData = (
+export const updateJsonFromFilteredData = (
   filteredData: { [key: string]: string },
   outputPath: string = "./scrapedData.json"
 ) => {
   const fs = require("fs");
   let jsonData: { data: { [key: string]: string }[] } = { data: [] };
-  // Check if the file exists
+  // If the file ./scrapedData.json exists, update jsonData with it
   if (fs.existsSync(outputPath)) {
     // Read the existing data
     const existingData = fs.readFileSync(outputPath, "utf8");
@@ -21,10 +23,21 @@ export const createJsonFromFilteredData = (
     }
   }
 
-  // Append the new data to the array
+  /* 
+  if filteredData has more than one field (piva is always present)
+  then:
+  1. update the piva.json file setting done: true for the corresponding piva of the filtered data
+  2. push the filteredData to jsonData
+  */
+  if(Object.keys(filteredData).length > 1) {
+    const fs = require("fs");
+    const pivas = fs.readFileSync("./piva.json", "utf8");
+    const json = JSON.parse(pivas) as {piva: string, done: boolean}[];
+    const pivaInJson = json.find((item) => item.piva === filteredData.piva);
+    pivaInJson!.done = true;
+    fs.writeFileSync("./piva.json", JSON.stringify(json), "utf8");
+  }
   jsonData.data.push(filteredData);
-
-  // Write the updated data back to the file
   fs.writeFileSync(outputPath, JSON.stringify(jsonData), "utf8");
   console.log("Data has been appended to scrapedData.json");
   return jsonData;
@@ -42,13 +55,13 @@ export const filterData = (
   const firstNotNull = (_i: number, arr: string[]) =>
     arr.find((x, i) => !!x && i > _i);
 
-  data.splice(2);
   data = data
     .map((item) => item.textContent)
     .flat()
     .map((item) => item.split(":"))
     .flat() as string[];
-
+  console.log('before filtered: ', data);
+  
   const _filteredData = data
     .reverse()
     .map((item, _i) => {
@@ -95,3 +108,9 @@ export const filterData = (
   console.log("filteredData: ", filteredData);
   return filteredData;
 };
+
+filterData(
+  retrievedData, 
+  "08820850967",   
+  ["ateco", "fatturato", "utile", "dipendenti"], 
+  ["cod. ateco", "dipendenti", "acquista bilancio"]);

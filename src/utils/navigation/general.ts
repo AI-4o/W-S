@@ -25,40 +25,8 @@ const scrapeQSelector = async (selectors: string[]) => {
  */
 const scrapeQSelectorAll = async (selector: string) => {
   const data = await Cl.scrapeQSelectorAll(selector);
-
-  console.log(
-    "is data an array of data objects?: ",
-    Array.isArray(data),
-    "is data[0] of type DomELementData?: ",
-    typeof data[0] === "object",
-    "the scraped data textContent: ",
-    data.map((d: any) => d.textContent)
-  );
+  // console.log( "scrape Q textContent: ",data.map((d: any) => d.textContent));
   return data;
-};
-/**
- * Execute a chain of actions on the page until they are all successfully executed or the maximum number of tries is reached.
- *
- * @param actionsChain - an array of functions to be executed on the page
- * @param maxTries - the maximum number of tries to execute the actions
- * @param delay - a relative delay factor between each action
- */
-export const repeatedAttack = async (actionsChain: (() => Promise<void>)[], maxTries = 7, delay = 800) : Promise<void> => {
-  let tries = 0;
-  while (tries < maxTries) {
-    await H.execActionsChain({
-      actions: actionsChain,
-      delay: delay,
-    })
-      .then(() => (tries = maxTries)) // success -> set tries to maxTries and end the cycle
-      .catch(async (e: ExecActionsChainError) => {
-        // fail -> try again to execute the actions, from the failing one
-        console.log(
-          `error in scraping piva execActionsChain, tried ${tries + 1}-times`
-        );
-        tries++;
-      });
-  }
 };
 // define command-line arguments to call the functions using yargs
 yargs(hideBin(process.argv))
