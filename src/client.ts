@@ -35,7 +35,7 @@ async function waitForSelector(selector: string) {
  * Function to click an element
  * usage -> npm run click "button[id = "W0wltc"]"
  *  */
-async function click(selector: string, reqCount: number = 1) {
+async function click(selector: string, throwsError: boolean = true) {
   try {
     const response = await axios.post(`${BASE_URL}/click`, { selector: selector});
     console.log(response.data);
@@ -44,7 +44,7 @@ async function click(selector: string, reqCount: number = 1) {
       `Error clicking ${selector}:`,
       error.response?.data || error.message
     );
-  throw new Error('CLICK_FAIL_ERROR');
+    if(throwsError) throw new Error('CLICK_FAIL_ERROR');
   }
 }
 const consoleStyles = { 

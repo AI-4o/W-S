@@ -61,10 +61,8 @@ ufficio camerale:
 
 creare excel con tabella con queste quattro info
 
-- Prendere info da dei siti -> 
+3.  modelli predittivi (segmentazioni clienti, mappare bisogni clienti)
 
-- modelli predittivi (segmentazioni clienti, mappare bisogni clienti)
+4.  automatizzazione excel
 
-- automatizzazione excel
-
-- lezioni
+5. lezioni

@@ -10,8 +10,7 @@
     "outDir": "./dist"                                    /* Specify an output folder for the generated files. */
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",

@@ -1,0 +1,43 @@
+/**
+ * this object summarizes the content of the articles of the given url
+ */
+
+import { getContents as getMilanoFContents } from "./summarizer.milano-finanza";
+import { getContents as getAnsaContents } from "./summarizer.ansa-economia";
+import { getContents as getFortuneItaContents } from "./summarizer.fortune-ita";
+import { hideBin } from "yargs/helpers";
+import yargs from "yargs";
+
+enum URLS {
+    ECONOMY_MILANO_FINANZA = "news/economia",
+    TECH_MILANO_FINANZA = "news/tecnologia",
+    ECONOMY_ANSA = "https://www.ansa.it/sito/notizie/economia/economia.shtml?refresh_ce"
+}
+const summarize = async (i: number) => {
+    switch (i) {
+        case 1:
+            await getMilanoFContents(URLS.ECONOMY_MILANO_FINANZA);
+            break;
+        case 2:
+            await getMilanoFContents(URLS.TECH_MILANO_FINANZA);
+            break;
+        case 3:
+            await getAnsaContents();
+            break;
+        case 4:
+            await getFortuneItaContents();
+            break;  
+    }
+}
+
+
+yargs(hideBin(process.argv))
+  .command(
+    "summarize-milano",
+    "Scrape the data from the given url",
+    () => {},
+    async () => {
+      await summarize();//TODO: aggiungere prompt per l'utente per scegliere il sito da cui scaricare i dati
+    }
+  )
+  .parse();

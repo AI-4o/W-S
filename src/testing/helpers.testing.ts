@@ -95,24 +95,3 @@ const testCreateJsonFromArray = () => {
   console.log(jsonData);
 };
 
-yargs(hideBin(process.argv))
-  .command(
-    "test-filter-data",
-    "test the filterData helper function",
-    () => {},
-    async () => {
-      await testFilterRetrievedRawData();
-    }
-  )
-  .command(
-    "test-create-json",
-    "test the createJsonFromArray helper function",
-    () => {},
-    async () => {
-      await testCreateJsonFromArray();
-    }
-  )
-  .demandCommand(1, "You need to specify a command")
-  .help()
-  .alias("help", "h")
-  .parse();

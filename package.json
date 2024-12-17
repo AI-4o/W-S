@@ -1,14 +1,14 @@
 {
   "name": "web-slayer",
   "version": "1.0.0",
-  "description": "",
+  "description": "Not for the fainthearted.",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "test-filter": "ts-node src/utils/helpers.testing.ts test-filter-data",
     "test-create-json": "ts-node src/utils/helpers.testing.ts test-create-json",
     "start": "node scripts/run.js",
     "server-start": "node scripts/server-start.js",
-    "server-serve": "tsc && node dist/server.js",
     "navigate": "ts-node src/client.ts navigate",
     "click": "ts-node src/client.ts click",
     "type": "ts-node src/client.ts type",
@@ -21,17 +21,26 @@
     "scrape-all": "ts-node src/utils/navigation/general.ts scrape-all",
     "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data",
     "scrape-pivas": "ts-node src/scraping-examples/pivas/main.ts scrape-pivas",
-    "reset-piva-json": "ts-node src/scraping-examples/pivas/main.ts reset-piva-json"
+    "reset-piva-json": "ts-node src/scraping-examples/pivas/main.ts reset-piva-json",
+    "summarize": "ts-node src/scraping-examples/summarizer/summarizer.ts summarize",
+    "summarize-ansa": "ts-node src/scraping-examples/summarizer/summarizer.ansa-economia.ts summarize"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "web-scraping",
+    "web-automation",
+    "web-scraping-tool"
+  ],
+  "author": "AISOFT",
   "license": "ISC",
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.7.7",
     "@types/yargs": "^17.0.33",
-    "typescript": "^5.6.3"
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "@langchain/core": "^0.3.11",

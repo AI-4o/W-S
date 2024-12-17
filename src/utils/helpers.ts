@@ -104,7 +104,7 @@ const execActionsChain = async ({
  * @param maxTries - the maximum number of tries to execute the actions
  * @param delay - a relative delay factor between each action
  */
-export const repeatedAttack = async (actionsChain: (() => Promise<any>)[], maxTries = 7, delay = 1000) => {
+export const repeatedAttack = async (actionsChain: ((x?:any) => Promise<any>)[], maxTries = 7, delay = 1000) => {
   let tries = 0;
   let result: any;
   while (tries < maxTries) {
