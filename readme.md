@@ -34,35 +34,10 @@ The app is structured in two parts:
 In other words, the server exposes endpoints for performing the atomic/basic user actions (navigate, click, type, press enter, clear a text input), for evaluating arbitrary javascript code, for retrievining the whole html of the current page, and for shutting down the server.
 A complex action (e.g. perform-linkedIn-login, search-contact, perform-google-search) is implemented in the client via a sequence of server requests. Actions are listed in the package.json file.
 
-# TODO
-  1. [ ] complete linkedin scraping adding the remaining data of a profile
-    1.1 [] create test files
-    1.2 [] verify that the input for search is already present after a login when performing search-contact
-    1.3 [] add conditional scraping in case of different page configurations
-  2. [ ] implement layer that adds the retrieved data to a json file, and to a CSV file
-  3. [ ] implement a layer that sends the data to a database
-  4. [ ] implement data visualization via charts
-  5. [ ] implement app which converts the data of a profile into a CV and produces a webpage with the CV and a pdf
-   desiderata: 
+# Scraping examples
 
+Web scraping examples using the app structure, they are implemented in the src/scraping-examples folder.
 
+# Summarizers
 
-* []  applicazione Laccetti
-1. viene fornito file excel con partite iva 
-
-- WEB-SCRAPING:
-
-per ogni partita iva vogliamo le info da 
-ufficio camerale: 
-• fatturato
-• utile
-• numero dipendenti 
-• ateco
-
-creare excel con tabella con queste quattro info
-
-3.  modelli predittivi (segmentazioni clienti, mappare bisogni clienti)
-
-4.  automatizzazione excel
-
-5. lezioni
+Summarizers are implemented in the src/scraping-examples/summarizer folder. They are used to scrape the data from the given url and to summarize it.

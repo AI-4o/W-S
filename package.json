@@ -23,7 +23,10 @@
     "scrape-pivas": "ts-node src/scraping-examples/pivas/main.ts scrape-pivas",
     "reset-piva-json": "ts-node src/scraping-examples/pivas/main.ts reset-piva-json",
     "summarize": "ts-node src/scraping-examples/summarizer/summarizer.ts summarize",
-    "summarize-ansa": "ts-node src/scraping-examples/summarizer/summarizer.ansa-economia.ts summarize"
+    "summarize-ansa": "ts-node src/scraping-examples/summarizer/summarizer.ansa-economia.ts summarize",
+    "summarize-milano-finanza": "ts-node src/scraping-examples/summarizer/summarizer.milano-finanza.ts summarize-milano-finanza",
+    "summarize-milano-tech": "ts-node src/scraping-examples/summarizer/summarizer.milano-tech.ts summarize-milano-tech",
+    "summarize-fortune-ita": "ts-node src/scraping-examples/summarizer/summarizer.fortune-ita.ts summarize-fortune-ita"
   },
   "keywords": [
     "web-scraping",

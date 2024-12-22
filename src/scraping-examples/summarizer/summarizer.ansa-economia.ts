@@ -96,33 +96,3 @@ const getArticleContent = async (url: string): Promise<string> => {
   console.log("the text content is: ", content);
   return content;
 };
-
-
-yargs(hideBin(process.argv))
-  .command(
-    "summarize",
-    "Scrape the data from the given url",
-    () => {},
-    async () => {
-      await getContents();
-    }
-  )
-  .command(
-    "article-content <url>",
-    "Get the content of the given article",
-    () => {},
-    async (argv) => {
-      const url = argv.url as string;
-      await getArticleContent(url);
-    }
-  )
-  .command(
-    "create-file <content>",
-    "Create a .txt file with the given content",
-    () => {},
-    async (argv) => {
-      const content = argv.content as string;
-      resumeFile(content);
-    }
-  )
-  .parse();
