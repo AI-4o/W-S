@@ -33,11 +33,35 @@ const summarize = async (i: number) => {
 
 yargs(hideBin(process.argv))
   .command(
-    "summarize-milano",
+    "summarize-milano-finanza",
     "Scrape the data from the given url",
     () => {},
     async () => {
-      await summarize();//TODO: aggiungere prompt per l'utente per scegliere il sito da cui scaricare i dati
+      await summarize(1);
+    }
+  )
+  .command(
+    "summarize-milano-tech",
+    "Scrape the data from the given url",
+    () => {},
+    async () => {
+      await summarize(2);
+    }
+  )
+  .command(
+    "summarize-ansa",
+    "Scrape the data from the given url",
+    () => {},
+    async () => {
+      await summarize(3);
+    }
+  )
+  .command(
+    "summarize-fortune-ita",
+    "Scrape the data from the given url",
+    () => {},
+    async () => {
+      await summarize(4);
     }
   )
   .parse();
