@@ -1,0 +1,49 @@
+{
+  "name": "web-slayer",
+  "version": "1.0.0",
+  "description": "Not for the fainthearted.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "perform-google-search": "ts-node src/utils/navigation/google.ts perform-google-search",
+    "perform-linkedin-login": "ts-node src/utils/navigation/linkedin.ts perform-linkedin-login",
+    "search-contact": "ts-node src/utils/navigation/linkedin.ts search-contact",
+    "scrape-all": "ts-node src/utils/navigation/general.ts scrape-all",
+    "scrape-contact-data": "ts-node src/utils/navigation/linkedin.ts scrape-contact-data",
+    "scrape-pivas": "ts-node src/scraping-examples/pivas/main.ts scrape-pivas",
+    "reset-piva-json": "ts-node src/scraping-examples/pivas/main.ts reset-piva-json",
+    "summarize-ansa": "ts-node src/scraping-examples/summarizer/summarizer.ts summarize-ansa",
+    "summarize-milano-finanza": "ts-node src/scraping-examples/summarizer/summarizer.ts summarize-milano-finanza",
+    "summarize-milano-tech": "ts-node src/scraping-examples/summarizer/summarizer.ts summarize-milano-tech",
+    "summarize-fortune-ita": "ts-node src/scraping-examples/summarizer/summarizer.ts summarize-fortune-ita"
+  },
+  "keywords": [
+    "web-scraping",
+    "web-automation",
+    "web-scraping-tool"
+  ],
+  "author": "AISOFT",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.7.7",
+    "@types/yargs": "^17.0.33",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.11",
+    "@langchain/openai": "^0.3.7",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "langchain": "^0.3.2",
+    "puppeteer": "^23.5.3",
+    "ts-node": "^10.9.2",
+    "xlsx": "^0.18.5",
+    "yargs": "^17.7.2"
+  }
+}
