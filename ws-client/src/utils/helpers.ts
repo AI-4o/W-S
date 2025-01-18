@@ -186,6 +186,7 @@ const trim = (rawTextContent: string | null | undefined) => {
     .map((line) => line.trim()) // Trim each line
     .filter((line) => line.length > 0); // Filter out empty lines
 }
+
 export {
   takeScreenshot,
   executeOCR,

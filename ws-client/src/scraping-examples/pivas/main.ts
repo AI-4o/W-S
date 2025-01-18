@@ -3,6 +3,8 @@ import { hideBin } from "yargs/helpers";
 import * as Cl from "../../client";
 import { scrapeQSelectorAll } from "../../utils/navigation/general";
 import { scrapeFromString } from "./scrape";
+import { transformJsonToExcel } from "../../utils/transformJsonToExcel";
+import { transformExcelToJson } from "../../utils/transformExcelToJson";
 
 const fs = require("fs");
 /**
@@ -27,6 +29,7 @@ const resetPivaJson = () => {
  *    and append the data to the pivasScrapedData.json file.
  */
 export const scrapePIVAS = async () => {
+  transformExcelToJson();
   const pivas = fs.readFileSync("./piva.json", "utf8");
   const pivasArray = JSON.parse(pivas)
     .filter((x: { done: boolean }) => !x.done)
@@ -59,6 +62,7 @@ export const scrapePIVAS = async () => {
     if(success) checkDonePivaJson(piva);
   }
   console.log('\n\n\nSCRAPING ENDED\n\n\n');
+  transformJsonToExcel();
 };
 /**
  * Set the field "done" to true for the piva in the piva.json file corresponding to the given _piva.
